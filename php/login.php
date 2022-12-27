@@ -1,0 +1,51 @@
+<?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "is2109_library_reformed";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error){
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "SELECT * FROM user WHERE email = '".$_POST["email"]."';";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        if($row["password"] == md5($_POST["password"])){
+            if($row["email_verification"] == 1){
+                if($row["active_status"] == "enable"){
+                    session_start();
+                    $_SESSION["email"] = $row["email"]; 
+                    $_SESSION["userID"] = $row["userID"]; 
+                    $_SESSION["username"] = $row["first_name"]." ".$row["last_name"]; 
+                    if($row["userID"] == 1){
+                        header("location: http://localhost/is2109-library-reformed/admin_home.php");
+                    }else{
+                        header("location: http://localhost/is2109-library-reformed/member_home.php");
+                    }
+                }else{
+                    echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
+                    echo "<center>Sorry! Your account is inactive.</center>";
+                    echo "</div>";
+                }
+            }else{
+                echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
+                echo "<center>Sorry! Your email isn't verified.</center>";
+                echo "</div>";
+            }
+            
+        }else{
+            echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
+            echo "<center>Sorry! Credentials are invalid</center>";
+            echo "</div>";
+        }
+        
+    } else {
+        echo "0 results";
+    }
+
+    $conn->close(); 
+?>
