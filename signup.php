@@ -31,7 +31,7 @@
 
 </head>
 
-<body>
+<body style="background-image: url('icon/common.jpg');background-repeat:no-repeat;background-attachment:fixed;background-size:cover;">
     <center>
         <div class="login-box">
             <form method="post" name="signupForm" action="php/signup.php" enctype="multipart/form-data"
