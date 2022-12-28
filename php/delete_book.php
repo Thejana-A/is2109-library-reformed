@@ -16,7 +16,9 @@
         echo "<center>Book was deleted successfully</center>";
         echo "</div>";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
+        echo "<center>Error:  <br>" . $conn->error."</center>";
+        echo "</div>";
     }
 
     $conn->close(); 
