@@ -22,6 +22,11 @@
         echo "<center>Error: <br>" . $conn->error."</center>";
         echo "</div>";
 
+        date_default_timezone_set("Asia/Calcutta");
+        $error = "Error:user updating failed ";
+        $timestamp = date("Y-m-d h:i:s A");
+        echo file_put_contents("error_log.txt","$error - $timestamp \n",FILE_APPEND);
+
     }
 
     $conn->close(); 

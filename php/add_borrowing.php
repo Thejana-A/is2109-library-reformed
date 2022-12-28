@@ -22,6 +22,11 @@
         echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
         echo "<center>Error:<br>".$conn->error."</center>";
         echo "</div>";
+
+        date_default_timezone_set("Asia/Calcutta");
+        $error = "Error:borrowing attempt failed ";
+        $timestamp = date("Y-m-d h:i:s A");
+        echo file_put_contents("error_log.txt","$error - $timestamp \n",FILE_APPEND);
     }
 
     $conn->close(); 

@@ -26,6 +26,11 @@
                     }else{
                         header("location: http://localhost/is2109-library-reformed/member_home.php");
                     }
+                    
+                    date_default_timezone_set("Asia/Calcutta");
+                    $userID = $_SESSION["userID"];
+	                $timestamp = date("Y-m-d h:i:s A");
+	                echo file_put_contents("login_log.txt","Log in by $userID - $timestamp \n",FILE_APPEND);
                 }else{
                     echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
                     echo "<center>Sorry! Your account is inactive.</center>";
