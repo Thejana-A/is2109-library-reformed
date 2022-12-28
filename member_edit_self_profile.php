@@ -177,16 +177,6 @@
     </center>
 
     </div>
-    <script>
-        function addLeadingZeros(num, totalLength) {
-            return String(num).padStart(totalLength, '0');
-        }
-
-        var max_DOB = new Date();
-        max_DOB.setYear(max_DOB.getFullYear()-6);
-        max_DOB = max_DOB.getFullYear() + '-' + addLeadingZeros(max_DOB.getMonth(),2) + '-' + addLeadingZeros(max_DOB.getDate(),2);
-
-        document.getElementById("DOB").setAttribute("max", max_DOB);
-    </script>
+    
 </body>
 </html>
