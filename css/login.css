@@ -17,3 +17,11 @@
     margin:3px;
     margin:6px;
 }
+.verify{
+    background-color:#a8a8ec;
+    border-radius:8px;
+    padding:30px;
+    width:50%;
+    margin:150px;
+    font-family:sans-serif;
+}
