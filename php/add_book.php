@@ -8,16 +8,19 @@
     if ($conn->connect_error){
         die("Connection failed: " . $conn->connect_error);
     }
-
-    $sql = "INSERT INTO book (name, author, price, year, status) VALUES ('".$_POST['name']."', '".$_POST['author']."', '".$_POST['price']."', '".$_POST['year']."', 'available');";
-
-    if ($conn->query($sql) === TRUE) {
+    $status = "available";
+    $stmt = $conn->prepare("INSERT INTO book (name, author, price, year, status) VALUES (?,?,?,?,?)");
+    $stmt->bind_param("ssiis",$_POST['name'],$_POST['author'],$_POST['price'],$_POST['year'],$status);
+    $stmt->execute();
+    $bookID = $conn->insert_id;
+    if($bookID == 0){
+        echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
+        echo "<center>Sorry ! Book was not inserted</center>";
+        echo "</div>";
+    }else{
         echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
         echo "<center>New book was added successfully</center>";
         echo "</div>";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
     }
-
     $conn->close(); 
 ?>

@@ -9,14 +9,19 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "UPDATE user SET first_name = '".$_POST['first_name']."', last_name = '".$_POST['last_name']."', email = '".$_POST['email']."', DOB = '".$_POST['DOB']."', city = '".$_POST['city']."' , contact_no = '".$_POST['contact_no']."', active_status = '".$_POST['active_status']."' WHERE userID = '".$_POST['userID']."';";
-
-    if ($conn->query($sql) === TRUE) {
+    $stmt = $conn->prepare("UPDATE user SET first_name = ?, last_name = ?, email = ?, DOB = ?, city = ?, contact_no = ?, active_status = ? WHERE userID = '".$_POST['userID']."';");
+    $stmt->bind_param("sssssss", $_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['DOB'], $_POST['city'], $_POST['contact_no'], $_POST['active_status']);
+    $stmt->execute();
+    $affectedRows = mysqli_stmt_affected_rows($stmt);
+    if($affectedRows != -1){
         echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
         echo "<center>User was updated successfully</center>";
         echo "</div>";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
+        echo "<center>Error: <br>" . $conn->error."</center>";
+        echo "</div>";
+
     }
 
     $conn->close(); 

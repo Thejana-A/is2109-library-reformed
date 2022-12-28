@@ -19,23 +19,21 @@
     $tempFileName = $_FILES["membershipID"]["tmp_name"];
     $result = move_uploaded_file($tempFileName,$fileTarget);
     if($result) { 
-        $sql = "INSERT INTO user (first_name, last_name, email, DOB, city, contact_no, membershipID, password) SELECT '".$_POST['first_name']."', '".$_POST['last_name']."', '".$_POST['email']."', '".$_POST['DOB']."', '".$_POST['city']."', '".$_POST['contact_no']."', '".$newImageName."' , '".md5($_POST['password'])."' WHERE NOT EXISTS (SELECT userID FROM user WHERE email = '".$_POST['email']."');";
-        if ($conn->query($sql) === TRUE) {
-            $employeeID = $conn->insert_id;
-                if($employeeID == 0){
-                    echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
-                    echo "<center>Sorry ! That email already exists.</center>";
-                    echo "</div>";
-                }else{
-                    echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
-                    echo "<center>Signed up successfully</center>";
-                    echo "</div>";
-                }
-        } else {
+        $stmt = $conn->prepare("INSERT INTO user (first_name, last_name, email, DOB, city, contact_no, membershipID, password) SELECT ?,?,?,?,?,?,?,? WHERE NOT EXISTS (SELECT userID FROM user WHERE email = ".$_POST['email'].";");
+        $password = md5($_POST['password']);
+        $stmt->bind_param("ssssssss",$_POST['first_name'],$_POST['last_name'],$_POST['email'],$_POST['DOB'],$_POST['city'],$_POST['contact_no'] , $newImageName,$password);
+        $stmt->execute();
+        $userID = $conn->insert_id;
+        if($userID == 0){
             echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
-            echo "<center>Error: " . $sql . "<br>" . $conn->error."</center>";
+            echo "<center>Sorry ! That email already exists.</center>";
+            echo "</div>";
+        }else{
+            echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
+            echo "<center>Signed up successfully</center>";
             echo "</div>";
         }
+    
     }else{
         echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
         echo "<center>Sorry! Image wasn't uploaded.</center>";

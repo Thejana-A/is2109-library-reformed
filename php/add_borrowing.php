@@ -9,15 +9,19 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql_borrow = "INSERT INTO borrowings (bookID, userID, borrowing_date) VALUES ('".$_POST['bookID']."', '".$_POST['userID']."', '".$_POST['borrowing_date']."');";
-    $sql_update_book = "UPDATE book SET status = 'on borrow';";
-
-    if (($conn->query($sql_borrow) === TRUE)&&($conn->query($sql_update_book) === TRUE)) {
+    $sql_borrow = $conn->prepare("INSERT INTO borrowings (bookID, userID, borrowing_date) VALUES (?,?,?)");
+    $sql_borrow->bind_param("sss",$_POST['bookID'],$_POST['userID'],$_POST['borrowing_date']);
+    $sql_update_book = "UPDATE book SET status = 'on borrow' WHERE bookID = ".$_POST['bookID']." ;";
+    $sql_borrow->execute();
+    $borrowID = $conn->insert_id;
+    if (($borrowID != 0)&&($conn->query($sql_update_book) === TRUE)) {
         echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
         echo "<center>Book was lended successfully</center>";
         echo "</div>";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
+        echo "<center>Error:<br>".$conn->error."</center>";
+        echo "</div>";
     }
 
     $conn->close(); 

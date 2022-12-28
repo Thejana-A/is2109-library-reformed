@@ -9,15 +9,19 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql_update_borrowing = "UPDATE borrowings SET returning_date = '".$_POST['returning_date']."' WHERE borrowingID = '".$_POST['borrowingID']."';";
     $sql_update_book = "UPDATE book SET status = 'available' WHERE bookID = '".$_POST['bookID']."';";
-
-    if (($conn->query($sql_update_borrowing) === TRUE)&&($conn->query($sql_update_book) === TRUE)) {
+    $stmt = $conn->prepare("UPDATE borrowings SET returning_date =? WHERE borrowingID = '".$_POST['borrowingID']."';");
+    $stmt->bind_param("s",$_POST['returning_date']);
+    $stmt->execute();
+    $affectedRows = mysqli_stmt_affected_rows($stmt);
+    if (($affectedRows != -1)&&($conn->query($sql_update_book) === TRUE)) {
         echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
         echo "<center>Book was returned successfully</center>";
         echo "</div>";
     } else {
-        echo "Error: " . $sql_update_borrowing . "<br>" . $conn->error;
+        echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
+        echo "<center>Error:<br>" . $conn->error."</center>";
+        echo "</div>";
     }
 
     $conn->close(); 
