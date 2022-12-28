@@ -19,7 +19,7 @@ if (mysqli_num_rows($result) > 0) {
 
         if ($conn->query($sql) === true) {
             echo " <script>
-                   alert('Account verification done, you may sign in now');
+                   alert('Account verification done. You may sign in now');
                    window.location.replace('../login.php');
              </script>";
         } else {

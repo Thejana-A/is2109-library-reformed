@@ -40,7 +40,7 @@
                 echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
                 echo "<center>Sorry! Your email isn't verified.</center>";
                 echo "</div>";
-            }
+            }                   
             
         }else{
             echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
