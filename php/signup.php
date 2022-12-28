@@ -23,61 +23,64 @@ $tempFileName = $_FILES["membershipID"]["tmp_name"];
 $result = move_uploaded_file($tempFileName, $fileTarget);
 if ($result) {
     $otp = rand(100000, 999999);
-    $sql = "INSERT INTO user (first_name, last_name, email, DOB, city, contact_no, membershipID, password, email_OTP) SELECT '" . $_POST['first_name'] . "', '" . $_POST['last_name'] . "', '" . $_POST['email'] . "', '" . $_POST['DOB'] . "', '" . $_POST['city'] . "', '" . $_POST['contact_no'] . "', '" . $newImageName . "' , '" . md5($_POST['password']) . "' , '" . md5($otp) . "' WHERE NOT EXISTS (SELECT userID FROM user WHERE email = '" . $_POST['email'] . "');";
-    if ($conn->query($sql) === true) {
-        $employeeID = $conn->insert_id;
-        if ($employeeID == 0) {
-            echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
-            echo "<center>Sorry ! That email already exists.</center>";
-            echo "</div>";
-        } else {
-            $email = $_POST['email'];
+    $stmt = $conn->prepare("INSERT INTO user (first_name, last_name, email, DOB, city, contact_no, membershipID, password, email_OTP) SELECT ?,?,?,?,?,?,?,?,? WHERE NOT EXISTS (SELECT userID FROM user WHERE email = '" . $_POST["email"] . "');");
+    $password = md5($_POST['password']);
+    $eotp = md5($otp);
+    $stmt->bind_param("sssssssss", $_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['DOB'], $_POST['city'], $_POST['contact_no'], $newImageName, $password, $eotp);
+    $stmt->execute();
+    $userID = $conn->insert_id;
+    if ($userID == 0) {
+        echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
+        echo "<center>Sorry ! That email already exists.</center>";
+        echo "</div>";
 
-            require_once "../PHPMailer/PHPMailerAutoload.php";
-            $mail = new PHPMailer;
+        date_default_timezone_set("Asia/Calcutta");
+        $error = "Error:signup attempt failed " . $_POST['email'];
+        $timestamp = date("Y-m-d h:i:s A");
+        echo file_put_contents("error_log.txt", "$error - $timestamp \n", FILE_APPEND);
+    } else {
+        $email = $_POST['email'];
 
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->Port = 587;
-            $mail->SMTPAuth = true;
-            $mail->SMTPSecure = 'tls';
+        require_once "../PHPMailer/PHPMailerAutoload.php";
+        $mail = new PHPMailer;
 
-            $mail->Username = 'pksthimaya@gmail.com';
-            $mail->Password = 'ymjkeiefakvzmrwr';
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->Port = 587;
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = 'tls';
 
-            $mail->setFrom('pksthimaya@gmail.com', 'OTP Verification');
-            $mail->addAddress($_POST["email"]);
+        $mail->Username = 'pksthimaya@gmail.com';
+        $mail->Password = 'ymjkeiefakvzmrwr';
 
-            $mail->isHTML(true);
-            $mail->Subject = "OTP Verification code";
-            $mail->Body = "<p>Dear user, </p> <h3>Your verification OTP code is $otp <br></h3>
+        $mail->setFrom('pksthimaya@gmail.com', 'OTP Verification');
+        $mail->addAddress($_POST["email"]);
+
+        $mail->isHTML(true);
+        $mail->Subject = "OTP Verification code";
+        $mail->Body = "<p>Dear user, </p> <h3>Your verification OTP code is $otp <br></h3>
                     <br>
                     <a href='https://localhost/is2109-library-reformed/verify_email.php?email=$email'>Click here</a> to proceed";
 
-            if (!$mail->send()) {
-                ?>
+        if (!$mail->send()) {
+            ?>
                 <script>
                     alert("<?php echo "Invalid Email " ?>");
                 </script>
-                <?php
-} else {
-                ?>
+                <?php   
+        } else {
+            ?>
                 <script>
                     alert("<?php echo "OTP sent to " . $email ?>");
                 </script>
                 <?php
-}
-
         }
-    } else {
-        echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
-        echo "<center>Error: " . $sql . "<br>" . $conn->error . "</center>";
-        echo "</div>";
+
     }
+
 } else {
     echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
     echo "<center>Sorry! Image wasn't uploaded.</center>";
     echo "</div>";
 }
 $conn->close();
-?>
