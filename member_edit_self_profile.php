@@ -58,7 +58,7 @@
     </script>
 
 </head>
-<body>
+<body style="background-image: url('icon/member_home.jpg');background-repeat:no-repeat;background-attachment:fixed;background-size:cover;">
     <div class="container">
         <div class="top">
             <img src="./icon/logo.jpg" style="float:left;width:80px;">
@@ -69,12 +69,14 @@
             <a href="login.php">Logout</a>
             <a href="member_edit_self_profile.php"><?php echo $_SESSION["username"]; ?></a> 
         </div>
-        <div class="nav">
-            <center>
-                <a href="member_books.php">Books</a>
-                <a href="member_borrowings.php">Borrowings</a>
-            </center>
-        </div>
+       <div class="nav">
+            <div class="nav-btn">
+                <center>
+                    <a href="member_books.php">Books</a>
+                    <a href="member_borrowings.php">Borrowings</a>
+                </center>
+            </div>
+        </div><br><br>
 
         <center>
             <div class="form-box">
