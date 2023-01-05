@@ -20,11 +20,23 @@
 <head>
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 
 <body
     style="background-image: url('icon/common.jpg');background-repeat:no-repeat;background-attachment:fixed;background-size:cover;">
-    <center><br><br><br><br><br><br>
+    <div class="top">
+        <img src="./icon/logo.jpg" style="float:left;width:80px;">
+        <img src="./icon/logo.jpg" style="float:right;width:80px;">
+        <center>
+            <h1>Reading Club</h1>
+        </center>
+    </div>
+    <div class="mid">
+        <a href="index.php">Home</a>
+    </div>
+    <br><br>
+    <center><br>
         <div class="login-box">
             <form method="post" action="php/login.php">
                 <table>
@@ -39,7 +51,7 @@
                         <td>User email</td>
                     </tr>
                     <tr>
-                        <td><input type="email" name="email" required /></td>
+                        <td><input type="text" name="email" required /></td>
                     </tr>
                     <tr>
                         <td>Password</td>
@@ -69,6 +81,8 @@
                         <?php } ?>
                     </tr>
                 </table>
+                <div style="font-size:12px;">Don't have an account <a href="signup.php"
+                        style="text-decoration:none;color:red;">Sign up for free</a></div>
             </form>
         </div>
     </center>

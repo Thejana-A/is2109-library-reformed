@@ -4,6 +4,7 @@
 <head>
     <title>Signup</title>
     <link rel="stylesheet" type="text/css" href="css/login.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     <script>
     function validateForm() {
         var first_name = document.forms["signupForm"]["first_name"].value;
@@ -31,7 +32,19 @@
 
 </head>
 
-<body style="background-image: url('icon/common.jpg');background-repeat:no-repeat;background-attachment:fixed;background-size:cover;">
+<body
+    style="background-image: url('icon/common.jpg');background-repeat:no-repeat;background-attachment:fixed;background-size:cover;">
+    <div class="top">
+        <img src="./icon/logo.jpg" style="float:left;width:80px;">
+        <img src="./icon/logo.jpg" style="float:right;width:80px;">
+        <center>
+            <h1>Reading Club</h1>
+        </center>
+    </div>
+    <div class="mid">
+        <a href="index.php">Home</a>
+    </div>
+    <br><br>
     <center>
         <div class="login-box">
             <form method="post" name="signupForm" action="php/signup.php" enctype="multipart/form-data"
@@ -107,6 +120,8 @@
                         </td>
                     </tr>
                 </table>
+                <div style="font-size:12px;">Already have an account?<a href="login.php"
+                        style="text-decoration:none;color:red;">Login</a></div>
             </form>
         </div>
     </center>
