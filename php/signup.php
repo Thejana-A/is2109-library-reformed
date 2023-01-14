@@ -24,8 +24,8 @@ $result = move_uploaded_file($tempFileName, $fileTarget);
 if ($result) {
     $otp = rand(100000, 999999);
     $stmt = $conn->prepare("INSERT INTO user (first_name, last_name, email, DOB, city, contact_no, membershipID, password, email_OTP) SELECT ?,?,?,?,?,?,?,?,? WHERE NOT EXISTS (SELECT userID FROM user WHERE email = '" . $_POST["email"] . "');");
-    $password = md5($_POST['password']);
-    $eotp = md5($otp);
+    $password = sha1($_POST['password']);
+    $eotp = sha1($otp);
     $stmt->bind_param("sssssssss", $_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['DOB'], $_POST['city'], $_POST['contact_no'], $newImageName, $password, $eotp);
     $stmt->execute();
     $userID = $conn->insert_id;

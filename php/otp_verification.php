@@ -9,12 +9,12 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM user WHERE email_OTP = '" . md5($_POST["otp"]) . "';";
+$sql = "SELECT * FROM user WHERE email_OTP = '" . sha1($_POST["otp"]) . "';";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
-    if ($row["email_OTP"] == md5($_POST["otp"])) {
+    if ($row["email_OTP"] == sha1($_POST["otp"])) {
         $sql = "UPDATE user SET email_verification = '1' WHERE email = '" . $_POST['email'] . "';";
 
         if ($conn->query($sql) === true) {

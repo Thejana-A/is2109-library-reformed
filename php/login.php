@@ -16,7 +16,7 @@ $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
-    if ($row["password"] == md5($_POST["password"])) {
+    if ($row["password"] == sha1($_POST["password"])) {
         if ($row["email_verification"] == 1) {
             if ($row["active_status"] == "enable") {
                 session_start();
