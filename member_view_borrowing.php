@@ -1,19 +1,11 @@
 <!DOCTYPE html>
 <?php require_once 'php/member_redirect_login.php' ?>
+<?php require_once 'php/db_connection.php' ?>
 <html>
 <head>
     <title>Member view borrow</title>
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "is2109_library_reformed";
-
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
-        if (!$conn){
-            die("Connection failed: ".mysqli_connect_error());
-        }
 
         /*$sql = "SELECT * FROM borrowings, book, user WHERE borrowings.bookID = book.bookID AND borrowings.userID = user.userID AND borrowingID = ".$_GET["borrowingID"];
         $result = mysqli_query($conn, $sql); */

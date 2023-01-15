@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php require_once 'php/member_redirect_login.php' ?>
+<?php require_once 'php/db_connection.php' ?>
 <html>
 <head>
     <title>Member books</title>

@@ -1,13 +1,6 @@
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "is2109_library_reformed";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error){
-        die("Connection failed: " . $conn->connect_error);
-    }
+    require_once 'db_connection.php';
+    
     $status = "available";
     $stmt = $conn->prepare("INSERT INTO book (name, author, price, year, status) VALUES (?,?,?,?,?)");
     $stmt->bind_param("ssiis",$_POST['name'],$_POST['author'],$_POST['price'],$_POST['year'],$status);

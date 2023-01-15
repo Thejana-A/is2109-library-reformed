@@ -1,13 +1,5 @@
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "is2109_library_reformed";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error){
-        die("Connection failed: " . $conn->connect_error);
-    }
+    require_once 'db_connection.php';
 
     $sql_borrow = $conn->prepare("INSERT INTO borrowings (bookID, userID, borrowing_date) VALUES (?,?,?)");
     $sql_borrow->bind_param("sss",$_POST['bookID'],$_POST['userID'],$_POST['borrowing_date']);

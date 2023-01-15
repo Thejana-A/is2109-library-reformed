@@ -23,7 +23,7 @@
                         <td>Email</td>
                     </tr>
                     <tr>
-                        <td><input type="email" name="email" value="<?php echo $_REQUEST['email']; ?>" readonly /></td>
+                        <td><input type="email" name="email" value="<?php echo htmlspecialchars($_REQUEST['email']); ?>" readonly /></td>
                     </tr>
                     <tr>
                         <td>OTP Code</td>

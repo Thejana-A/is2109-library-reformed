@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php require_once 'php/admin_redirect_login.php' ?>
+<?php require_once 'php/db_connection.php' ?>
 <html>
 <head>
     <title>Admin books</title>
@@ -37,15 +38,6 @@
                         <th>Status</th> 
                     </tr>
                     <?php
-                        $servername = "localhost";
-                        $username = "root";
-                        $password = "";
-                        $dbname = "is2109_library_reformed";
-
-                        $conn = new mysqli($servername, $username, $password, $dbname);
-                        if ($conn->connect_error) {
-                            die("Connection failed: " . $conn->connect_error);
-                        }
 
                         $sql = "SELECT * FROM book";
                         $result = $conn->query($sql);

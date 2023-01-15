@@ -1,13 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "is2109_library_reformed";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_connection.php';
 
 while (true) {
     $newImageName = uniqid() . "." . explode("/", $_FILES["membershipID"]["type"])[1];
@@ -20,7 +12,7 @@ while (true) {
 $target = "../membershipID/";
 $fileTarget = $target . $newImageName;
 $tempFileName = $_FILES["membershipID"]["tmp_name"];
-$result = move_uploaded_file($tempFileName, $fileTarget);
+$result = move_uploaded_file(htmlspecialchars($tempFileName), htmlspecialchars($fileTarget));
 if ($result) {
     $otp = rand(100000, 999999);
     $stmt = $conn->prepare("INSERT INTO user (first_name, last_name, email, DOB, city, contact_no, membershipID, password, email_OTP) SELECT ?,?,?,?,?,?,?,?,? WHERE NOT EXISTS (SELECT userID FROM user WHERE email = ?);");
@@ -37,7 +29,8 @@ if ($result) {
         date_default_timezone_set("Asia/Calcutta");
         $error = "Error:signup attempt failed " . $_POST['email'];
         $timestamp = date("Y-m-d h:i:s A");
-        echo file_put_contents("error_log.txt", "$error - $timestamp \n", FILE_APPEND);
+        $message = "$error - $timestamp \n";
+        echo file_put_contents("error_log.txt", htmlspecialchars($message), FILE_APPEND);
     } else {
         $email = $_POST['email'];
 
@@ -71,7 +64,7 @@ if ($result) {
         } else {
             ?>
                 <script>
-                    alert("<?php echo "OTP sent to " . $email ?>");
+                    alert("<?php echo "OTP sent to ".htmlspecialchars($email) ?>");
                 </script>
                 <?php
         }

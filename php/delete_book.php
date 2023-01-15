@@ -1,13 +1,5 @@
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "is2109_library_reformed";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error){
-        die("Connection failed: " . $conn->connect_error);
-    }
+    require_once 'db_connection.php';
 
     /*$sql = "DELETE FROM book WHERE bookID = '".$_POST['bookID']."';";
     if ($conn->query($sql) === TRUE) { */

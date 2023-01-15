@@ -1,13 +1,5 @@
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "is2109_library_reformed";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error){
-        die("Connection failed: " . $conn->connect_error);
-    }
+    require_once 'db_connection.php';
 
     $stmt = $conn->prepare("UPDATE user SET first_name = ?, last_name = ?, email = ?, DOB = ?, city = ?, contact_no = ?, active_status = ? WHERE userID = ?;");
     $stmt->bind_param("sssssssi", $_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['DOB'], $_POST['city'], $_POST['contact_no'], $_POST['active_status'], $_POST['userID']);

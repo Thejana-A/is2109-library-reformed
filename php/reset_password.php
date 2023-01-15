@@ -1,13 +1,5 @@
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "is2109_library_reformed";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error){
-        die("Connection failed: " . $conn->connect_error);
-    }
+    require_once 'db_connection.php';
 
     /*$sql = "SELECT * FROM user WHERE userID = '".$_POST["userID"]."';";
     $result = mysqli_query($conn, $sql);  */
