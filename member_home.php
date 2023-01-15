@@ -4,8 +4,20 @@
 <head>
     <title>Member home</title>
     <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script>
+        function acceptCookies() {
+            let text = "We use cookies on our website to see how you interact with it. By accepting, you agree to our use of such cookies.";
+            if (confirm(text) === true) {
+                document.cookie = "username=<?php echo $_SESSION["username"]; ?>";
+                alert("Hi "+(document.cookie.split(";")[1]).split("=")[1]+"! Welcome you to library system");
+            }else{
+                document.cookie = "username=<?php echo $_SESSION["username"]; ?>;expires=Thu, 18 Dec 2013 12:00:00 UTC";
+                alert("Hi ! Welcome you to library system");
+            }
+        }
+    </script>
 </head>
-<body style="background-image: url('icon/member_home.jpg');background-repeat:no-repeat;background-attachment:fixed;background-size:cover;">
+<body onload="acceptCookies()" style="background-image: url('icon/member_home.jpg');background-repeat:no-repeat;background-attachment:fixed;background-size:cover;">
     <div class="container">
         <div class="top">
             <img src="./icon/logo.jpg" style="float:left;width:80px;">
