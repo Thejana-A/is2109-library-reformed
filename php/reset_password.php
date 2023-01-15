@@ -24,7 +24,10 @@
                 echo "<center>Password was updated successfully</center>";
                 echo "</div>";
             } else {
-                echo "Error: " . $sql_reset_password . "<br>" . $conn->error;
+                //echo "Error: " . $sql_reset_password . "<br>" . $conn->error;
+                echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
+                echo "<center>Sorry! Password wasn't updated</center>";
+                echo "</div>";
             }
         }else{
             echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";

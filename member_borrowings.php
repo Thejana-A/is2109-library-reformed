@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <?php require_once 'php/member_redirect_login.php' ?>
+<?php require_once 'php/db_connection.php' ?>
+
 <html>
 <head>
     <title>Member borrowings</title>
@@ -35,15 +37,6 @@
                         <th>Returned on</th> 
                     </tr>
                     <?php
-                        $servername = "localhost";
-                        $username = "root";
-                        $password = "";
-                        $dbname = "is2109_library_reformed";
-
-                        $conn = new mysqli($servername, $username, $password, $dbname);
-                        if ($conn->connect_error) {
-                            die("Connection failed: " . $conn->connect_error);
-                        }
 
                         $sql = "SELECT * FROM borrowings WHERE userID = ".$_SESSION["userID"];
                         $result = $conn->query($sql);
