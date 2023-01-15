@@ -11,10 +11,15 @@
 
     $sql_borrow = $conn->prepare("INSERT INTO borrowings (bookID, userID, borrowing_date) VALUES (?,?,?)");
     $sql_borrow->bind_param("sss",$_POST['bookID'],$_POST['userID'],$_POST['borrowing_date']);
-    $sql_update_book = "UPDATE book SET status = 'on borrow' WHERE bookID = ".$_POST['bookID']." ;";
     $sql_borrow->execute();
     $borrowID = $conn->insert_id;
-    if (($borrowID != 0)&&($conn->query($sql_update_book) === TRUE)) {
+    $stmt = $conn->prepare("UPDATE book SET status = 'on borrow' WHERE bookID = ?;");
+    $stmt->bind_param("i",$_POST['bookID']);
+    $stmt->execute();
+    $affectedRows = mysqli_stmt_affected_rows($stmt);
+    /*$sql_update_book = "UPDATE book SET status = 'on borrow' WHERE bookID = ".$_POST['bookID']." ;";
+    if (($borrowID != 0)&&($conn->query($sql_update_book) === TRUE)) { */
+    if (($borrowID != 0)&&($affectedRows != -1)) {  
         echo "<div style='background-color:#a8a8ec;border-radius:3px;padding:5px;'>";
         echo "<center>Book was lended successfully</center>";
         echo "</div>";

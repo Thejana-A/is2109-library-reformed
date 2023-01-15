@@ -15,8 +15,14 @@
             die("Connection failed: ".mysqli_connect_error());
         }
 
-        $sql = "SELECT * FROM user WHERE userID = ".$_GET["userID"];
-        $result = mysqli_query($conn, $sql);
+        /*$sql = "SELECT * FROM user WHERE userID = ".$_GET["userID"];
+        $result = mysqli_query($conn, $sql); */
+        $sql = "SELECT * FROM user WHERE userID = ?"; 
+        $stmt = $conn->prepare($sql);
+        $userID = $_GET["userID"];
+        $stmt->bind_param("i", $userID);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);

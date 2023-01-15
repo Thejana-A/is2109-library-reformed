@@ -11,8 +11,14 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM user WHERE email = '" . $_POST["email"] . "';";
-$result = mysqli_query($conn, $sql);
+/*$sql = "SELECT * FROM user WHERE email = '" . $_POST["email"] . "';";
+$result = mysqli_query($conn, $sql); */
+$sql = "SELECT * FROM user WHERE email = ?"; 
+$stmt = $conn->prepare($sql);
+$email = $_POST["email"];
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);

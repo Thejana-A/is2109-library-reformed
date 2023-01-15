@@ -8,8 +8,8 @@
     if ($conn->connect_error){
         die("Connection failed: " . $conn->connect_error);
     }
-    $stmt = $conn->prepare("UPDATE book SET name = ?, author = ?, price = ?, year = ?, status = ? WHERE bookID = ".$_POST['bookID'].";");
-    $stmt->bind_param("ssiis",$_POST['name'],$_POST['author'],$_POST['price'],$_POST['year'],$_POST['status']);
+    $stmt = $conn->prepare("UPDATE book SET name = ?, author = ?, price = ?, year = ?, status = ? WHERE bookID = ?;");
+    $stmt->bind_param("ssiisi",$_POST['name'],$_POST['author'],$_POST['price'],$_POST['year'],$_POST['status'], $_POST['bookID']);
     $stmt->execute();
     $affectedRows = mysqli_stmt_affected_rows($stmt);
     if($affectedRows == -1){

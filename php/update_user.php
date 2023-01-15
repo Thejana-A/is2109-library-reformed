@@ -9,8 +9,8 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $stmt = $conn->prepare("UPDATE user SET first_name = ?, last_name = ?, email = ?, DOB = ?, city = ?, contact_no = ?, active_status = ? WHERE userID = '".$_POST['userID']."';");
-    $stmt->bind_param("sssssss", $_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['DOB'], $_POST['city'], $_POST['contact_no'], $_POST['active_status']);
+    $stmt = $conn->prepare("UPDATE user SET first_name = ?, last_name = ?, email = ?, DOB = ?, city = ?, contact_no = ?, active_status = ? WHERE userID = ?;");
+    $stmt->bind_param("sssssssi", $_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['DOB'], $_POST['city'], $_POST['contact_no'], $_POST['active_status'], $_POST['userID']);
     $stmt->execute();
     $affectedRows = mysqli_stmt_affected_rows($stmt);
     if($affectedRows != -1){

@@ -23,10 +23,10 @@ $tempFileName = $_FILES["membershipID"]["tmp_name"];
 $result = move_uploaded_file($tempFileName, $fileTarget);
 if ($result) {
     $otp = rand(100000, 999999);
-    $stmt = $conn->prepare("INSERT INTO user (first_name, last_name, email, DOB, city, contact_no, membershipID, password, email_OTP) SELECT ?,?,?,?,?,?,?,?,? WHERE NOT EXISTS (SELECT userID FROM user WHERE email = '" . $_POST["email"] . "');");
+    $stmt = $conn->prepare("INSERT INTO user (first_name, last_name, email, DOB, city, contact_no, membershipID, password, email_OTP) SELECT ?,?,?,?,?,?,?,?,? WHERE NOT EXISTS (SELECT userID FROM user WHERE email = ?);");
     $password = sha1($_POST['password']);
     $eotp = sha1($otp);
-    $stmt->bind_param("sssssssss", $_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['DOB'], $_POST['city'], $_POST['contact_no'], $newImageName, $password, $eotp);
+    $stmt->bind_param("ssssssssss", $_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['DOB'], $_POST['city'], $_POST['contact_no'], $newImageName, $password, $eotp, $_POST["email"]);
     $stmt->execute();
     $userID = $conn->insert_id;
     if ($userID == 0) {

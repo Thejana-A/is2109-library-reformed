@@ -15,8 +15,14 @@
             die("Connection failed: ".mysqli_connect_error());
         }
 
-        $sql = "SELECT * FROM book WHERE bookID = ".$_GET["bookID"];
-        $result = mysqli_query($conn, $sql);
+        /*$sql = "SELECT * FROM book WHERE bookID = ".$_GET["bookID"];
+        $result = mysqli_query($conn, $sql); */
+        $sql = "SELECT * FROM book WHERE bookID = ?"; 
+        $stmt = $conn->prepare($sql);
+        $bookID = $_GET["bookID"];
+        $stmt->bind_param("i", $bookID);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
